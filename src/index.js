@@ -1,11 +1,18 @@
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 
-import express from "express";
-const app = express();
-
 dotenv.config({
   path: "./env",
 });
 
-connectDB();
+connectDB()
+  .then(() => {
+    const port = process.env.PORT || 8000;
+    app.listen(port, () => {
+      console.log(`Sever is running at port: ${port} `);
+    });
+    //app.on
+  })
+  .catch((error) => {
+    console.log("MONGODB Connection failed!!! ", error);
+  });
