@@ -26,6 +26,6 @@ app.use(
 app.use(express.static("public"));
 
 //perform CRUD Operation on cookies
-app.use(cookieParser())
+app.use(cookieParser());
 
 export default app;
