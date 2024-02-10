@@ -23,7 +23,7 @@ const uploadOnCloudinary = async (localFile) => {
     return response;
   } catch (error) {
     fs.unlinkSync(localFile); //remove the locally saved temporary file as upload was unsuccessfull and does not save corrupted files
-
+    console.log("error in cloudinary in utils")
     return null;
   }
 };
