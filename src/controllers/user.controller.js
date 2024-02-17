@@ -244,7 +244,7 @@ const changeCurrentPassword = asyncHandler(async (req, res, next) => {
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
-    .json(200, req.user, "current user fetched successfully");
+    .json(new ApiResponse(200, req.user, "current user fetched successfully"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -292,7 +292,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     },
     { new: true }
   ).select("-password");
-
+  //delete old image
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Avatar is updated Successfully"));
@@ -324,6 +324,16 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Cover Image is updated Successfully"));
 });
+
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  if (!username?.trim()) {
+    throw new ApiError(400, "username is missing");
+  }
+
+  User.find;
+});
 export {
   registerUser,
   loginUser,
@@ -333,5 +343,5 @@ export {
   changeCurrentPassword,
   updateAccountDetails,
   updateUserAvatar,
-  updateUserCoverImage
+  updateUserCoverImage,
 };
