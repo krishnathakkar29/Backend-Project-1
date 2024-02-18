@@ -10,7 +10,7 @@ cloudinary.config({
 const uploadOnCloudinary = async (localFile) => {
   try {
     if (!localFile) {
-      console.log("local file not found (try block if...)");
+      // console.log("local file not found (try block if...)");
       return null;
     }
     const response = await cloudinary.uploader.upload(localFile, {
@@ -18,8 +18,8 @@ const uploadOnCloudinary = async (localFile) => {
       resource_type: "auto",
     });
 
-    console.log("File is uploaded on cloudinary", response.url);
-    //print the response as whole and not url
+    // console.log("File is uploaded on cloudinary,the response", response);
+    fs.unlinkSync(localFile)
     return response;
   } catch (error) {
     fs.unlinkSync(localFile); //remove the locally saved temporary file as upload was unsuccessfull and does not save corrupted files
