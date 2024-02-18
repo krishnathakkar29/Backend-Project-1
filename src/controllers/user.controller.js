@@ -58,9 +58,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
   //middleware adds more fields into the body , mostly all the times
   //multer gives accesss and adds files
-
-  //console karke dekhna avatar pura
-  console.log("Request FILES:_ \n", req.files);
+  // console.log("Request FILES:_ \n", req.files);
   const avatarLocalPath = req.files?.avatar[0]?.path;
   const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
@@ -74,11 +72,10 @@ const registerUser = asyncHandler(async (req, res, next) => {
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar Image is required");
   }
-  console.log("avatar path before uploading on cloudinary", avatarLocalPath);
+  console.log("avatar path before uploading on cloudinary\n", avatarLocalPath);
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-
-  console.log(avatar);
+  // console.log("After uploading on cloudinary\n", avatar);
 
   if (!avatar) {
     throw new ApiError(400, "Avatar image needed in cloudinary");
@@ -164,8 +161,8 @@ const logOutUser = asyncHandler(async (req, res, next) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
+      $unset: {
+        refreshToken: 1, //this removes the field from document
       },
     },
     {
@@ -342,7 +339,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "subscriptions",
-        localField: _id,
+        localField: "_id",
         foreignField: "channel",
         as: "subscribers",
       },
@@ -350,7 +347,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "subscriptions",
-        localField: _id,
+        localField: "_id",
         foreignField: "subscriber",
         as: "subscribedTo",
       },
